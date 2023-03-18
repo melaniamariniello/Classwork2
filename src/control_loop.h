@@ -1,6 +1,8 @@
 #include <iostream>
 #include "boost/thread.hpp"
 #include <fstream>
+#include <cstdlib> 
+#include <ctime>
 
 using namespace std;
 
@@ -16,11 +18,11 @@ class CONTROLLER {
     private:
         double _xdes; //desired value to reach
         double _xmes; //current value of my system
-        float _eps; //error threshold
+        float _eps;   //error threshold
 
-        double _kp; // PID gains costante di controllo proporzionale
-        double _kd; // PID gains costante di controllo derivativo
-        double _ki; // PID gains costante di controllo integrale
+        float  _kp; // P gain 
+        float  _ki; // I gain 
+        float  _kd; // D gain 
 
         bool _initial_val; 
 };

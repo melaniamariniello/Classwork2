@@ -31,7 +31,7 @@ void CONTROLLER::set_xdes(double x) {
 void CONTROLLER::system_start() {
     
     //Generate a random initial value
-    srand((unsigned int)time(NULL));
+    srand((unsigned int)time(NULL)); //start random - initializes random number generation 
     float random = ((float) rand()) / (float) RAND_MAX;
     _xmes = random;
     
