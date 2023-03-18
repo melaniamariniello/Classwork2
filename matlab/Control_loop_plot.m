@@ -1,4 +1,4 @@
-Output = Output';
+Output = VarName6;
 n = length(Output);
 dt = 1/100;
 ref = 35;
