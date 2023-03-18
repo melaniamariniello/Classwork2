@@ -21,9 +21,9 @@ CONTROLLER::CONTROLLER(float kp_, float kd_, float ki_) {
 
 //Sense: get input to change the state of our System
 void CONTROLLER::set_xdes(double x) {
-    _xdes = x; //valore da inseguire
+    _xdes = x; //set desired input
 
-    _initial_val = true; //mi fa uscire da sleep e avvia il controllo
+    _initial_val = true; //get out sleep while and start control loop
 }
 
 

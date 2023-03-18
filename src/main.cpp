@@ -12,7 +12,7 @@ using namespace std;
 int main(int argc, char** argv) {
 
     //New controller with the given gains for the PID
-    CONTROLLER c(0.1,0.05,0.01);
+    CONTROLLER c(0.1,0.04,0.02);
 
     double x;
     while( true ) {
