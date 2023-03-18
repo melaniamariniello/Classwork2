@@ -20,6 +20,7 @@ class CONTROLLER {
         double _xmes; //current value of my system
         float _eps;   //error threshold
 
+        //PID gains
         float  _kp; // P gain 
         float  _ki; // I gain 
         float  _kd; // D gain 

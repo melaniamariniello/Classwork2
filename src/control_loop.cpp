@@ -87,7 +87,7 @@ void CONTROLLER::loop() {
 
         if(abs(e)<_eps) break;
         
-        usleep(10000);  //10000 microseconds = 0.01 seconds = 100Hz
+        usleep(10000);  
 
         _xmes = c;      //The measured value is updated with the current value (output)
     }
