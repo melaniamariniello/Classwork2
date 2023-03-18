@@ -87,7 +87,7 @@ void CONTROLLER::loop() {
 
         if(abs(e)<_eps) break;
         
-        usleep(10000);  
+        usleep(10000); 
 
         _xmes = c;      //The measured value is updated with the current value (output)
     }

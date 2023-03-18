@@ -25,5 +25,5 @@ class CONTROLLER {
         float  _ki; // I gain 
         float  _kd; // D gain 
 
-        bool _initial_val; 
+        bool _initial_val;
 };
