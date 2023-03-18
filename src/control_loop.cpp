@@ -42,13 +42,13 @@ void CONTROLLER::loop() {
 
     ofstream myfile;
 
-    double e = 0.0;
-    double ep = 0.0;
-    double de = 0.0;
-    double ie = 0.0;
+    double err = 0.0;
+    double err_p = 0.0;
+    double err_d = 0.0;
+    double err_i = 0.0;
 
     double pid = 0.0;
-    double c = 0.0;
+    double output = 0.0;
     double dt = 1.0/100.0;   //sample time - f = 100Hz
 
  
@@ -69,26 +69,26 @@ void CONTROLLER::loop() {
     while( true ) {
 
         //PID errors
-        e = _xdes - _xmes;
-        de = (e - ep) / dt;
-        ie += e*dt;
+        err = _xdes - _xmes;
+        err_d = (err - err_p) / dt;
+        err_i += err*dt;
 
         //PID action
-        pid = _kp*e+ _kd*de + _ki*ie;
+        pid = _kp*err+ _kd*err_d + _ki*err_i;
 
         //Output
-        //we assume that the system is an integrator
-        c += pid*dt;
+        //we assume that the system is an integrator 
+        output += pid*dt;
 
-        cout << "PID error: " << e << " System output: " << c << endl;
+        cout << "PID error: " << err << " System output: " << output << endl;
         myfile.open ("Data.txt", ios::app);
-        myfile << "PID error: " << e << " System output: " << c << "\n";
+        myfile << "PID error: " << err << " System output: " << output << "\n";
         myfile.close();
 
-        if(abs(e)<_eps) break;
+        if(abs(err)<_eps) break;
         
         usleep(10000); 
 
-        _xmes = c;      //The measured value is updated with the current value (output)
+        _xmes = output;      //The measured value is updated with the current value (output)
     }
 }
