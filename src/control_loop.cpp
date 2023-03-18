@@ -1,41 +1,94 @@
 #include "control_loop.h"
 
 //We can use the class constructor to set parameters
-CONTROLLER::CONTROLLER(float p, float initial_val) {
-    _p = p;
-    _initial_val = initial_val;
+CONTROLLER::CONTROLLER(float kp_, float kd_, float ki_) {
 
-    //Thread here!
-    boost::thread loop_t (&CONTROLLER::loop,this); //this means we're using the contents of this function init_val is the same in loopfunction
+
+    _kp = kp_;
+    _ki = ki_;
+    _kd = kd_;
+    
+    _eps = 0.001;
+    _initial_val = false;
+    CONTROLLER::system_start();
+
+    //run thread of our system
+   
+    boost::thread loop_t( &CONTROLLER::loop, this );         //Main control loop
+
 }
 
 
 //Sense: get input to change the state of our System
 void CONTROLLER::set_xdes(double x) {
- 
+    _xdes = x; //valore da inseguire
+
+    _initial_val = true; //mi fa uscire da sleep e avvia il controllo
 }
 
 
 //Random initial value
 void CONTROLLER::system_start() {
-    _cmd = _initial_val;
+    
+    //Generate a random initial value
+    srand((unsigned int)time(NULL));
+    float random = ((float) rand()) / (float) RAND_MAX;
+    _xmes = random;
     
 }
 
 void CONTROLLER::loop() {
+    
 
+    ofstream myfile;
+
+    double e = 0.0;
+    double ep = 0.0;
+    double de = 0.0;
+    double ie = 0.0;
+
+    double pid = 0.0;
+    double c = 0.0;
+    double dt = 1.0/100.0;   //sample time - f = 100Hz
+
+ 
+    while( !_initial_val ) {
+        // wait input
+        usleep(0.1*1e6);
+    }
+    
     cout << "LOOP!" << endl;
 
-    float e = 0.0; //Controller error
-    float c = 0.0; //Current command value (feed-forward )
+    myfile.open ("Data.txt");
+    myfile << "reference: " << _xdes << "\n";
+    myfile.close();
 
-    while( true ){
+    _xdes == _xmes; //Set the initial value
 
-        e = _cmd - c;
+    //Loop
+    while( true ) {
 
-        usleep(0.01*1e6); //Pause, takes input arguments in microsec
+        //PID errors
+        e = _xdes - _xmes;
+        de = (e - ep) / dt;
+        ie += e*dt;
+
+        //PID action
+        pid = _kp*e+ _kd*de + _ki*ie;
+
+        //Output
+        //we assume that the system is an integrator
+        c += pid*dt;
+
+        cout << "PID error: " << e << " System output: " << c << endl;
+        myfile.open ("Data.txt", ios::app);
+        myfile << "PID error: " << e << " System output: " << c << "\n";
+        myfile.close();
+
+        if(abs(e)<_eps) break;
+        
+        usleep(10000);  //10000 microseconds = 0.01 seconds = 100Hz
+
+        _xmes = c;      //The measured value is updated with the current value (output)
     }
-
 }
-
-

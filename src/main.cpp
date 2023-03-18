@@ -11,14 +11,15 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    float initial_controller_value;
-    if( argc > 1){
-        initial_controller_value = float(argv[1]);
+    //New controller with the given gains for the PID
+    CONTROLLER c(0.1,0.05,0.01);
+
+    double x;
+    while( true ) {
+        cout << "Insert desired value for the controller: ";
+        cin >> x;
+        c.set_xdes(x);
     }
-    else initial_controller_value = 0.0;
-
-    CONTROLLER c(0.1, initial_controller_value);
-
     
     return 0;
 }

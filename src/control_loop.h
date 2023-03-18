@@ -1,20 +1,26 @@
 #include <iostream>
 #include "boost/thread.hpp"
+#include <fstream>
 
 using namespace std;
 
 class CONTROLLER {
     public:
-        CONTROLLER(float p, float initial_val); // input:
+        CONTROLLER(float, float, float);
         
-        void loop();                //Main loop function        
+        void loop();                //Main loop function
+        
         void system_start();       //start the system
         void set_xdes(double x);   //member to set the desired value
 
     private:
+        double _xdes; //desired value to reach
+        double _xmes; //current value of my system
+        float _eps; //error threshold
 
-        float _p;
-        float _initial_val;
-        float _cmd;
+        double _kp; // PID gains costante di controllo proporzionale
+        double _kd; // PID gains costante di controllo derivativo
+        double _ki; // PID gains costante di controllo integrale
 
+        bool _initial_val; 
 };
