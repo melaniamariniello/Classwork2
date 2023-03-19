@@ -10,7 +10,8 @@ CONTROLLER::CONTROLLER(float kp_, float kd_, float ki_) {
     
     _eps = 0.001;
     _initial_val = false;
-    CONTROLLER::system_start();
+
+    CONTROLLER::system_start(); 
 
     //run thread of our system
    
@@ -77,8 +78,7 @@ void CONTROLLER::loop() {
         pid = _kp*err+ _kd*err_d + _ki*err_i;
 
         //Output
-        //we assume that the system is an integrator 
-        output += pid*dt;
+        output = pid;
 
         cout << "PID error: " << err << " System output: " << output << endl;
         myfile.open ("Data.txt", ios::app);
